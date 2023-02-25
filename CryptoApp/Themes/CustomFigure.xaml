@@ -1,0 +1,15 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+    <VisualBrush x:Key="FindFigure">
+        <VisualBrush.Visual>
+            <Canvas>
+                <Line Y1="40" X2="40" Canvas.Top="69" Canvas.Left="15" 
+                     Stroke="Black" StrokeThickness="5" 
+                     StrokeStartLineCap="Round" />
+                <Ellipse Height="68" Width="68" Canvas.Left="45" Canvas.Top="13"
+                    StrokeThickness="6" Stroke="Black"/>
+            </Canvas>
+        </VisualBrush.Visual>
+    </VisualBrush>
+</ResourceDictionary>
