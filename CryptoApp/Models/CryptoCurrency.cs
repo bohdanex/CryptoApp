@@ -9,7 +9,7 @@ namespace CryptoApp.Models
     public class CryptoCurrency
     {
         public string Id { get; set; }
-        public byte Rank { get; set; }
+        public int Rank { get; set; }
         public char[] Symbol { get; set; }
         public string Name { get; set; }
         public decimal Supply { get; set; }
@@ -19,6 +19,7 @@ namespace CryptoApp.Models
         public decimal PriceUsd { get; set; }
         public decimal ChangePecentEra { get; set; }
         public decimal Vwap24Era { get; set; }
+        public ICollection<CryptoMarket> Markets { get; set; }
 
         public override string ToString()
         {

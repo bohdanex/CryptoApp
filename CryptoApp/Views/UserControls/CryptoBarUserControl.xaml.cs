@@ -20,8 +20,6 @@ namespace CryptoApp.Views.UserControls
 {
     public partial class CryptoBarUserControl : UserControl
     {
-        private int _selectCounter = 0;
-
         public CryptoCurrency OriginalCurrency { get; set; }
         public CryptoCurrencyUI CryptoCurrencyUI { get; set; }
 
@@ -66,19 +64,8 @@ namespace CryptoApp.Views.UserControls
             InitializeComponent();
         }
 
-        private void Selector_Click(object sender, RoutedEventArgs e)
-        {
-            RadioButton radioButton = (RadioButton)sender;
-            _selectCounter++;
-            if(radioButton.IsChecked.Value && _selectCounter > 1)
-            {
-                radioButton.IsChecked = false;
-            }
-        }
-
         private void RadioButton_Checked(object sender, RoutedEventArgs e)
         {
-            _selectCounter = 0;
             App.GlobalCurrency = OriginalCurrency;
         }
     }

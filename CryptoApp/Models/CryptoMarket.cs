@@ -36,16 +36,5 @@ namespace CryptoApp.Models
         {
             return $"Base: {BaseId}, Exchange: {ExchangeId}";
         }
-
-        public override bool Equals(object? obj)
-        {
-            return ((CryptoMarket)obj).ExchangeId.Equals(this.ExchangeId)
-                & ((CryptoMarket)obj).BaseId.Equals(this.BaseId);
-        }
-
-        public override int GetHashCode()
-        {
-            return ExchangeId.GetHashCode() & BaseId.GetHashCode();
-        }
     }
 }

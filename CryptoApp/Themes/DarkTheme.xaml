@@ -5,9 +5,9 @@
         <GradientStop Color="#190536" Offset="0"/>
         <GradientStop Color="#3A1078"  Offset="0.8"/>
     </LinearGradientBrush>
-    <SolidColorBrush x:Key="RadioButtonHover">#10FFFFFF</SolidColorBrush>
-    <SolidColorBrush x:Key="RadioButtonSelected">#00425A</SolidColorBrush>
+    <SolidColorBrush x:Key="RadioButtonHover">#2040CCCC</SolidColorBrush>
+    <SolidColorBrush x:Key="RadioButtonSelected">#3040CCCC</SolidColorBrush>
     <SolidColorBrush x:Key="DefaultTextColor">#4F5C75</SolidColorBrush>
-    <SolidColorBrush x:Key="TopTable">#00425A</SolidColorBrush>
+    <SolidColorBrush x:Key="TopTable">#222740</SolidColorBrush>
     <SolidColorBrush x:Key="CurrencyInfoBackground">#66000000</SolidColorBrush>
 </ResourceDictionary>

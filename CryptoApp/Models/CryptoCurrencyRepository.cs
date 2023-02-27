@@ -30,19 +30,21 @@ namespace CryptoApp.Models
                 using JsonDocument jsonDocument = await JsonDocument.ParseAsync(getStream);
                 JsonElement dataElement = jsonDocument.RootElement.GetProperty("data");
                 CryptoCurrencyFromApi mockCurrency = JsonSerializer.Deserialize<CryptoCurrencyFromApi>(dataElement[0]);
+                List<CryptoMarket> currencyMarkets = (List<CryptoMarket>) await MarketplaceRepository.GetCryptoMarketsAsync(mockCurrency.id);
                 return new CryptoCurrency()
                 {
                     Id = mockCurrency.id ?? "Undefined",
                     Symbol = mockCurrency.symbol.ToCharArray() ?? new[] { '?', '?', '?' },
                     Name = mockCurrency.name ?? "Undefined",
-                    Rank = byte.Parse(mockCurrency.rank ?? "0"),
+                    Rank = int.Parse(mockCurrency.rank ?? "0"),
                     PriceUsd = decimal.Parse(mockCurrency.priceUsd ?? "0"),
                     ChangePecentEra = Convert.ToDecimal(mockCurrency.changePercent24Hr ?? "0"),
                     MarketCupUsd = decimal.Parse(mockCurrency.marketCapUsd ?? "0"),
                     MaxSupply = decimal.Parse(mockCurrency.maxSupply ?? "0"),
                     Supply = decimal.Parse(mockCurrency.supply ?? "0"),
-                    VolumeUsdEra = decimal.Parse(mockCurrency.volumeUsd24Hr ?? "0"),
+                    VolumeUsdEra = decimal.Parse(mockCurrency.volumeUsd24Hr ?? "0") / 10000,
                     Vwap24Era = decimal.Parse(mockCurrency.vwap24Hr ?? "0"),
+                    Markets= currencyMarkets ?? new List<CryptoMarket>(),
                 }
                 ?? new CryptoCurrency();
             }
@@ -73,19 +75,21 @@ namespace CryptoApp.Models
                 using JsonDocument jsonDocument = await JsonDocument.ParseAsync(getStream);
                 JsonElement dataElement = jsonDocument.RootElement.GetProperty("data");
                 CryptoCurrencyFromApi mockCurrency = JsonSerializer.Deserialize<CryptoCurrencyFromApi>(dataElement[0]);
+                List<CryptoMarket> currencyMarkets = (List<CryptoMarket>)await MarketplaceRepository.GetCryptoMarketsAsync(mockCurrency.id);
                 return new CryptoCurrency()
                 {
                     Id = mockCurrency.id ?? "Undefined",
                     Symbol = mockCurrency.symbol.ToCharArray() ?? new[] { '?', '?', '?' },
                     Name = mockCurrency.name ?? "Undefined",
-                    Rank = byte.Parse(mockCurrency.rank ?? "0"),
+                    Rank = int.Parse(mockCurrency.rank ?? "0"),
                     PriceUsd = decimal.Parse(mockCurrency.priceUsd ?? "0"),
                     ChangePecentEra = Convert.ToDecimal(mockCurrency.changePercent24Hr ?? "0"),
                     MarketCupUsd = decimal.Parse(mockCurrency.marketCapUsd ?? "0"),
                     MaxSupply = decimal.Parse(mockCurrency.maxSupply ?? "0"),
                     Supply = decimal.Parse(mockCurrency.supply ?? "0"),
-                    VolumeUsdEra = decimal.Parse(mockCurrency.volumeUsd24Hr ?? "0"),
+                    VolumeUsdEra = decimal.Parse(mockCurrency.volumeUsd24Hr ?? "0") / 10000,
                     Vwap24Era = decimal.Parse(mockCurrency.vwap24Hr ?? "0"),
+                    Markets = currencyMarkets ?? new List<CryptoMarket>(),
                 }
                 ?? new CryptoCurrency();
             }
@@ -131,21 +135,22 @@ namespace CryptoApp.Models
                 List<CryptoCurrency> finalCryptoList = new();
                 foreach (CryptoCurrencyFromApi mockCurrency in deserialized)
                 {
+                    List<CryptoMarket> currencyMarkets = (List<CryptoMarket>)await MarketplaceRepository.GetCryptoMarketsAsync(mockCurrency.id);
                     finalCryptoList.Add(
                         new CryptoCurrency
                         {
                             Id = mockCurrency.id ?? "Undefined",
                             Symbol = mockCurrency.symbol.ToCharArray() ?? new[] { '?', '?', '?' },
                             Name = mockCurrency.name ?? "Undefined",
-                            Rank = byte.Parse(mockCurrency.rank ?? "0"),
+                            Rank = int.Parse(mockCurrency.rank ?? "0"),
                             PriceUsd = decimal.Parse(mockCurrency.priceUsd ?? "0"),
                             ChangePecentEra = Convert.ToDecimal(mockCurrency.changePercent24Hr ?? "0"),
                             MarketCupUsd = decimal.Parse(mockCurrency.marketCapUsd ?? "0"),
                             MaxSupply = decimal.Parse(mockCurrency.maxSupply ?? "0"),
                             Supply = decimal.Parse(mockCurrency.supply ?? "0"),
-                            VolumeUsdEra = decimal.Parse(mockCurrency.volumeUsd24Hr ?? "0"),
+                            VolumeUsdEra = decimal.Parse(mockCurrency.volumeUsd24Hr ?? "0") / 10000,
                             Vwap24Era = decimal.Parse(mockCurrency.vwap24Hr ?? "0"),
-
+                            Markets = currencyMarkets ?? new List<CryptoMarket>(),
                         });
                 }
                 return finalCryptoList ?? new List<CryptoCurrency>();
@@ -188,21 +193,22 @@ namespace CryptoApp.Models
                 List<CryptoCurrency> finalCryptoList = new();
                 foreach (CryptoCurrencyFromApi mockCurrency in deserialized)
                 {
+                    List<CryptoMarket> currencyMarkets = (List<CryptoMarket>) MarketplaceRepository.GetCryptoMarketsAsync(mockCurrency.id).Result;
                     finalCryptoList.Add(
                         new CryptoCurrency
                         {
                             Id = mockCurrency.id ?? "Undefined",
                             Symbol = mockCurrency.symbol.ToCharArray() ?? new[] { '?', '?', '?' },
                             Name = mockCurrency.name ?? "Undefined",
-                            Rank = byte.Parse(mockCurrency.rank ?? "0"),
+                            Rank = int.Parse(mockCurrency.rank ?? "0"),
                             PriceUsd = decimal.Parse(mockCurrency.priceUsd ?? "0"),
                             ChangePecentEra = Convert.ToDecimal(mockCurrency.changePercent24Hr ?? "0"),
                             MarketCupUsd = decimal.Parse(mockCurrency.marketCapUsd ?? "0"),
                             MaxSupply = decimal.Parse(mockCurrency.maxSupply ?? "0"),
                             Supply = decimal.Parse(mockCurrency.supply ?? "0"),
-                            VolumeUsdEra = decimal.Parse(mockCurrency.volumeUsd24Hr ?? "0"),
+                            VolumeUsdEra = decimal.Parse(mockCurrency.volumeUsd24Hr ?? "0") / 10000,
                             Vwap24Era = decimal.Parse(mockCurrency.vwap24Hr ?? "0"),
-
+                            Markets = currencyMarkets ?? new List<CryptoMarket>(),
                         });
                 }
                 return finalCryptoList ?? new List<CryptoCurrency>();

@@ -3,13 +3,23 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:CryptoApp"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:CurrencyViewModel="clr-namespace:CryptoApp.ViewModels"
+             xmlns:Converters="clr-namespace:CryptoApp.Converters"
              StartupUri="Views/MainWindow.xaml">
     <Application.Resources>
+
         <ResourceDictionary>
+            <CurrencyViewModel:CurrencyViewModel x:Key="CurrencyViewModel"/>
+            <Converters:ZeroToNullConverter x:Key="ZeroToNullConverter"/>
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+            <Converters:NumberToBrushConverter x:Key="NumberToBrushConverter"/>
+            <FontFamily x:Key="AnticRegularFontFamily">
+                ../StaticFiles/Fonts/Antic-Regular.ttf
+            </FontFamily>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Themes/CustomFigure.xaml"/>
-                <ResourceDictionary Source="Themes/OceanTheme.xaml"/>
-                <ResourceDictionary Source="Themes/DarkTheme.xaml"/>
+                <ResourceDictionary Source="Themes/OceanTheme.xaml" x:Name="OceanTheme"/>
+                <ResourceDictionary Source="Themes/DarkTheme.xaml" x:Name="DarkTheme"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

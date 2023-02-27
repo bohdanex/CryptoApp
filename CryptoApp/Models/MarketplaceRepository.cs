@@ -11,7 +11,7 @@ namespace CryptoApp.Models
 {
     public class MarketplaceRepository
     {
-        async public Task<IEnumerable<CryptoMarket>> GetCryptoMarketsAsync(object cryptoId, byte limit = 10)
+        async public static Task<IEnumerable<CryptoMarket>> GetCryptoMarketsAsync(object cryptoId, byte limit = 10)
         {
             try
             {

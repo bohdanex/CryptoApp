@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CryptoApp"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
-        mc:Ignorable="d" FontFamily="../StaticFiles/Fonts/Antic-Regular.ttf#Antic"
+        mc:Ignorable="d" FontFamily="{StaticResource AnticRegularFontFamily}"
         Title="MainWindow" Height="580" Width="1040">
     <Window.Resources>
         <Style TargetType="StackPanel"
@@ -124,7 +124,7 @@
         <StackPanel Margin="0 54 60 0" Panel.ZIndex="1"
                     Width="246" HorizontalAlignment="Right"
                     Grid.RowSpan="2" Style="{StaticResource FilteringPanel}">
-            <Button Height="52" 
+            <Button Height="52"
                 Background="SlateGray"  DockPanel.Dock="Right"
                 HorizontalContentAlignment="Stretch"
                 VerticalContentAlignment="Stretch"
