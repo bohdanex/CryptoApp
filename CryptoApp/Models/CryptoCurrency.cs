@@ -8,10 +8,10 @@ namespace CryptoApp.Models
 {
     public class CryptoCurrency
     {
-        public string Id { get; set; }
+        public string Id { get; set; } = "Undefined";
         public int Rank { get; set; }
-        public char[] Symbol { get; set; }
-        public string Name { get; set; }
+        public string Symbol { get; set; } = "Undefined";
+        public string Name { get; set; } = "Undefined";
         public decimal Supply { get; set; }
         public decimal MaxSupply { get; set; }
         public decimal MarketCupUsd { get; set; }
@@ -19,7 +19,7 @@ namespace CryptoApp.Models
         public decimal PriceUsd { get; set; }
         public decimal ChangePecentEra { get; set; }
         public decimal Vwap24Era { get; set; }
-        public ICollection<CryptoMarket> Markets { get; set; }
+        public ICollection<CryptoMarket> Markets { get; set; } = new List<CryptoMarket>();
 
         public override string ToString()
         {

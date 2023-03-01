@@ -1,0 +1,27 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <!-- MainWindow -->
+    <sys:String x:Key="Cryptocurrencies">Криптовалюти</sys:String>
+    <sys:String x:Key="Markets">Магазини</sys:String>
+    <sys:String x:Key="Converters">Конвертер</sys:String>
+    <sys:String x:Key="Settings">Налаштування</sys:String>
+    <sys:String x:Key="Top10Cryptocurrencies">Топ 10 криптовалют</sys:String>
+    
+    <!--CryptoBarUserControl-->
+    <sys:String x:Key="Rank">Топ</sys:String>
+    <sys:String x:Key="Name">Назва</sys:String>
+    <sys:String x:Key="PriceUsd">Ціна USD</sys:String>
+    <sys:String x:Key="Volume">Об'єм</sys:String>
+    
+    <!-- Crypto Info -->
+    <sys:String x:Key="Supply">Запас</sys:String>
+    <sys:String x:Key="MaxSupply">Максимальний запас</sys:String>
+    <sys:String x:Key="MarketCapUsd">Капіталізація USD</sys:String>
+    <sys:String x:Key="VolumeUsd">Об'єм протягом доби</sys:String>
+    <sys:String x:Key="ChangePercent">Відсоткова зміна (доба)</sys:String>
+    
+    <!-- Settings -->
+    <sys:String x:Key="Language">Мови</sys:String>
+    <sys:String x:Key="Theme">Теми</sys:String>
+</ResourceDictionary>

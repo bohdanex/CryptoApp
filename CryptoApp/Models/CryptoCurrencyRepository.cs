@@ -34,7 +34,7 @@ namespace CryptoApp.Models
                 return new CryptoCurrency()
                 {
                     Id = mockCurrency.id ?? "Undefined",
-                    Symbol = mockCurrency.symbol.ToCharArray() ?? new[] { '?', '?', '?' },
+                    Symbol = mockCurrency.symbol ?? "###",
                     Name = mockCurrency.name ?? "Undefined",
                     Rank = int.Parse(mockCurrency.rank ?? "0"),
                     PriceUsd = decimal.Parse(mockCurrency.priceUsd ?? "0"),
@@ -42,7 +42,7 @@ namespace CryptoApp.Models
                     MarketCupUsd = decimal.Parse(mockCurrency.marketCapUsd ?? "0"),
                     MaxSupply = decimal.Parse(mockCurrency.maxSupply ?? "0"),
                     Supply = decimal.Parse(mockCurrency.supply ?? "0"),
-                    VolumeUsdEra = decimal.Parse(mockCurrency.volumeUsd24Hr ?? "0") / 10000,
+                    VolumeUsdEra = decimal.Parse(mockCurrency.volumeUsd24Hr ?? "0"),
                     Vwap24Era = decimal.Parse(mockCurrency.vwap24Hr ?? "0"),
                     Markets= currencyMarkets ?? new List<CryptoMarket>(),
                 }
@@ -58,7 +58,6 @@ namespace CryptoApp.Models
             }
         }
 
-        [Obsolete("Use GetCryptoById<T> instead",false)]
         /// <summary>
         /// Perform operations using System.Net.Http, System.Text.Json namespaces
         /// </summary>
@@ -79,7 +78,7 @@ namespace CryptoApp.Models
                 return new CryptoCurrency()
                 {
                     Id = mockCurrency.id ?? "Undefined",
-                    Symbol = mockCurrency.symbol.ToCharArray() ?? new[] { '?', '?', '?' },
+                    Symbol = mockCurrency.symbol ?? "###",
                     Name = mockCurrency.name ?? "Undefined",
                     Rank = int.Parse(mockCurrency.rank ?? "0"),
                     PriceUsd = decimal.Parse(mockCurrency.priceUsd ?? "0"),
@@ -87,7 +86,7 @@ namespace CryptoApp.Models
                     MarketCupUsd = decimal.Parse(mockCurrency.marketCapUsd ?? "0"),
                     MaxSupply = decimal.Parse(mockCurrency.maxSupply ?? "0"),
                     Supply = decimal.Parse(mockCurrency.supply ?? "0"),
-                    VolumeUsdEra = decimal.Parse(mockCurrency.volumeUsd24Hr ?? "0") / 10000,
+                    VolumeUsdEra = decimal.Parse(mockCurrency.volumeUsd24Hr ?? "0"),
                     Vwap24Era = decimal.Parse(mockCurrency.vwap24Hr ?? "0"),
                     Markets = currencyMarkets ?? new List<CryptoMarket>(),
                 }
@@ -140,7 +139,7 @@ namespace CryptoApp.Models
                         new CryptoCurrency
                         {
                             Id = mockCurrency.id ?? "Undefined",
-                            Symbol = mockCurrency.symbol.ToCharArray() ?? new[] { '?', '?', '?' },
+                            Symbol = mockCurrency.symbol ?? "###",
                             Name = mockCurrency.name ?? "Undefined",
                             Rank = int.Parse(mockCurrency.rank ?? "0"),
                             PriceUsd = decimal.Parse(mockCurrency.priceUsd ?? "0"),
@@ -148,7 +147,7 @@ namespace CryptoApp.Models
                             MarketCupUsd = decimal.Parse(mockCurrency.marketCapUsd ?? "0"),
                             MaxSupply = decimal.Parse(mockCurrency.maxSupply ?? "0"),
                             Supply = decimal.Parse(mockCurrency.supply ?? "0"),
-                            VolumeUsdEra = decimal.Parse(mockCurrency.volumeUsd24Hr ?? "0") / 10000,
+                            VolumeUsdEra = decimal.Parse(mockCurrency.volumeUsd24Hr ?? "0"),
                             Vwap24Era = decimal.Parse(mockCurrency.vwap24Hr ?? "0"),
                             Markets = currencyMarkets ?? new List<CryptoMarket>(),
                         });
@@ -198,7 +197,7 @@ namespace CryptoApp.Models
                         new CryptoCurrency
                         {
                             Id = mockCurrency.id ?? "Undefined",
-                            Symbol = mockCurrency.symbol.ToCharArray() ?? new[] { '?', '?', '?' },
+                            Symbol = mockCurrency.symbol ?? "###",
                             Name = mockCurrency.name ?? "Undefined",
                             Rank = int.Parse(mockCurrency.rank ?? "0"),
                             PriceUsd = decimal.Parse(mockCurrency.priceUsd ?? "0"),
@@ -206,7 +205,7 @@ namespace CryptoApp.Models
                             MarketCupUsd = decimal.Parse(mockCurrency.marketCapUsd ?? "0"),
                             MaxSupply = decimal.Parse(mockCurrency.maxSupply ?? "0"),
                             Supply = decimal.Parse(mockCurrency.supply ?? "0"),
-                            VolumeUsdEra = decimal.Parse(mockCurrency.volumeUsd24Hr ?? "0") / 10000,
+                            VolumeUsdEra = decimal.Parse(mockCurrency.volumeUsd24Hr ?? "0"),
                             Vwap24Era = decimal.Parse(mockCurrency.vwap24Hr ?? "0"),
                             Markets = currencyMarkets ?? new List<CryptoMarket>(),
                         });

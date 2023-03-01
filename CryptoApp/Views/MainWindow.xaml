@@ -5,8 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CryptoApp"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
-        mc:Ignorable="d" FontFamily="{StaticResource AnticRegularFontFamily}"
-        Title="MainWindow" Height="580" Width="1040">
+        mc:Ignorable="d"
+        FontFamily="{StaticResource AnticRegularFontFamily}"
+        Title="MainWindow" ResizeMode="CanResize"
+        Height="580" Width="1040">
     <Window.Resources>
         <Style TargetType="StackPanel"
                x:Key="FilteringPanel">
@@ -78,10 +80,10 @@
 
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="234"/>
-                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="0.85*"/>
                 <ColumnDefinition Width="246"/>
                 <ColumnDefinition Width="60"/>
             </Grid.ColumnDefinitions>
@@ -89,20 +91,55 @@
                          IsChecked="True" FontSize="20"
                          GroupName="MainNavBar" Foreground="{DynamicResource DefaultTextColor}"
                          VerticalContentAlignment="Center"
-                         Content="Cryptocurrencies" x:Name="CryptoButton">
+                         Content="{DynamicResource Cryptocurrencies}" x:Name="CryptoButton">
             </RadioButton>
             <RadioButton Style="{StaticResource NavBarToggler}"
                          FontSize="20" Foreground="{DynamicResource DefaultTextColor}"
                          GroupName="MainNavBar" Grid.Column="1"
                          VerticalContentAlignment="Center"
-                         Content="Markets"  x:Name="Markets">
+                         Content="{DynamicResource Markets}"  x:Name="Markets">
+            </RadioButton>
+            <RadioButton Style="{StaticResource NavBarToggler}"
+                         FontSize="20" Foreground="{DynamicResource DefaultTextColor}"
+                         GroupName="MainNavBar" Grid.Column="2"
+                         VerticalContentAlignment="Center"
+                         Content="{DynamicResource Converters}"  x:Name="Converters">
             </RadioButton>
             <Grid Grid.Column="3"  Cursor="Hand">
-                <Border BorderBrush="Black" BorderThickness="2 0 2 0"/>
-                <TextBlock HorizontalAlignment="Center"
-                       VerticalAlignment="Center"
-                       Foreground="{DynamicResource DefaultTextColor}" FontSize="20"
-                       Text="Settings" />
+                <Border BorderBrush="Black" BorderThickness="0 0 2 0"/>
+
+                <CheckBox Content="{DynamicResource Settings}" 
+                          Foreground="{DynamicResource DefaultTextColor}"
+                          FontSize="20" x:Name="SettingsButton">
+                    <CheckBox.Style>
+                        <Style TargetType="CheckBox">
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="Margin" Value="2 2 2 2"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="CheckBox">
+                                        <Grid Background="{TemplateBinding Background}">
+                                            <ContentPresenter
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Center"/>
+                                        </Grid>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Cursor" Value="Hand"/>
+                                    <Setter Property="Background"
+                                            Value="{DynamicResource RadioButtonHover}"/>
+                                </Trigger>
+                                <Trigger Property="IsChecked" Value="True">
+                                    <Setter Property="Background" 
+                                            Value="{DynamicResource RadioButtonSelected}"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </CheckBox.Style>
+                </CheckBox>
             </Grid>
             <TextBox Grid.Column="4" x:Name="SearchBox"
                      Foreground="{DynamicResource DefaultTextColor}"
@@ -140,7 +177,7 @@
                     <TextBlock Grid.Row="1" FontSize="24"
                                VerticalAlignment="Center"
                                Foreground="{DynamicResource DefaultTextColor}" Margin="20,0,0,0"
-                        Text="Currencies"/>
+                        Text="{StaticResource Cryptocurrencies}"/>
                 </Grid>
             </Button>
             <Button Height="52" BorderThickness="0 1 0 0"
@@ -159,9 +196,52 @@
                     <TextBlock Grid.Row="1" FontSize="24"
                                VerticalAlignment="Center"
                                Foreground="{DynamicResource DefaultTextColor}" Margin="20,0,0,0"
-                        Text="Markets"/>
+                        Text="{StaticResource Markets}"/>
                 </Grid>
             </Button>
         </StackPanel>
+        
+        <!-- Settings tab-->
+        <StackPanel xmlns:ViewModel ="clr-namespace:CryptoApp.ViewModels"
+                    Background="#FFFFFF"
+                    Height="110" Width="180"
+                    Grid.RowSpan="2">
+            <StackPanel.DataContext>
+                <ViewModel:AppSettingsViewModel/>
+            </StackPanel.DataContext>
+            <StackPanel.Style>
+                <Style TargetType="StackPanel">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=SettingsButton,
+                            Path=IsChecked}" Value="False">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </StackPanel.Style>
+            <TextBlock Margin="0 6 0 2"
+                       Text="{DynamicResource Language}"
+                       HorizontalAlignment="Center"
+                       FontSize="18" />
+            <ComboBox SelectedItem="{Binding SelectedLanguage}"
+                      Margin="12 0 12 0">
+                <sys:String>Engilsh</sys:String>
+                <sys:String>Ukrainian</sys:String>
+                <sys:String>French</sys:String>
+                <sys:String>German</sys:String>
+                <sys:String>Polish</sys:String>
+                <sys:String>Japanese</sys:String>
+            </ComboBox>
+            <TextBlock Text="{DynamicResource Theme}"
+                       HorizontalAlignment="Center"
+                       FontSize="18"
+                       Margin="0 6 0 2"/>
+            <ComboBox SelectedItem="{Binding SelectedTheme}"
+                Margin="12 0 12 0">
+                <sys:String>Ocean</sys:String>
+                <sys:String>Dark</sys:String>
+            </ComboBox>
+        </StackPanel>
+        
     </Grid>
 </Window>

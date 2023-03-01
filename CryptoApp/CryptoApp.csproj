@@ -8,7 +8,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="SciChart" Version="7.0.1.27055" />
+    <Compile Remove="Views\NewFolder\**" />
+    <EmbeddedResource Remove="Views\NewFolder\**" />
+    <None Remove="Views\NewFolder\**" />
+    <Page Remove="Views\NewFolder\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Views\UserControls\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FancyCandles" Version="2.7.1" />
   </ItemGroup>
 
 </Project>

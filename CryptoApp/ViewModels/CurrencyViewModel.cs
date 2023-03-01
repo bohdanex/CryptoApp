@@ -1,4 +1,5 @@
 ﻿using CryptoApp.Models;
+using CryptoApp.Pages;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,29 +15,38 @@ namespace CryptoApp.ViewModels
 {
     class CurrencyViewModel : INotifyPropertyChanged
     {
-        public bool LoadContent { get; set; } = false;
+        public bool IsContentLoaded { get; set; } = true; //false
+        public Uri CurrencyImageUri { get; set; }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+
         public ObservableCollection<CryptoMarket> CurrencyMarkets { get; set; }
+        public ObservableCollection<CryptoCurrency> CurrenciesList { get; set; }
 
         private CryptoCurrency _currency;
         public CryptoCurrency Currency 
         { 
             get => _currency; 
-            set { _currency = value; 
-                    OnPropertyChanged(nameof(Currency));
-                } 
+            set 
+            {
+                IsContentLoaded = true; //false
+                _currency = value; 
+                OnPropertyChanged(nameof(Currency));
+                if(value != null && value.Symbol != null && value.Name != "Undefined")
+                {
+                    SetImage(new Uri($"https://assets.coincap.io/assets/icons/{value.Symbol.ToLower()}@2x.png"));
+                }
+                
+            }
         }
-
-        public Uri CurrencyImageUri { get; set; } = 
-            new Uri("pack://application:,,,/CryptoApp;component/StaticFiles/Images/loading.png",UriKind.Absolute);
-        public string Symbol { get; set; }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
 
         public CurrencyViewModel()
         {
+            CurrencyImageUri = new Uri("../../StaticFiles/Images/loading.png", UriKind.Relative);
             Currency = new CryptoCurrency();
             CurrencyMarkets = new ObservableCollection<CryptoMarket>();
-            App.OnTrigger += SourceUpdated;
+            App.CryptoCurrencies_Loaded += LoadCryptocurrencies;    
         }
 
         private void OnPropertyChanged(string name = null)
@@ -44,21 +54,18 @@ namespace CryptoApp.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
-        private void SourceUpdated()
+        private void LoadCryptocurrencies()
         {
-            Currency = App.GlobalCurrency;
-            OnPropertyChanged(nameof(Currency));
-            CurrencyMarkets = new ObservableCollection<CryptoMarket>(App.GlobalCurrency.Markets) ??
-                new ObservableCollection<CryptoMarket>();
-            OnPropertyChanged(nameof(CurrencyMarkets));
-            CurrencyImageUri =new Uri(String.Format(@"https://assets.coincap.io/assets/icons/{0}@2x.png", 
-                                        new string(Currency.Symbol).ToLower()));
-            Symbol = new string(Currency.Symbol).ToUpper();
-            
+            CurrenciesList = new(App.TopTenCurrenciesList);
+            OnPropertyChanged(nameof(CurrenciesList));
+        }
+
+        private void SetImage(Uri uri)
+        {
+            CurrencyImageUri = uri;
             OnPropertyChanged(nameof(CurrencyImageUri));
-            OnPropertyChanged(nameof(Symbol));
-            LoadContent= true;
-            OnPropertyChanged(nameof(LoadContent));
+            IsContentLoaded = true;
+            OnPropertyChanged(nameof(IsContentLoaded));
         }
     }
 }

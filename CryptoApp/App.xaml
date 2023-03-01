@@ -5,10 +5,13 @@
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:CurrencyViewModel="clr-namespace:CryptoApp.ViewModels"
              xmlns:Converters="clr-namespace:CryptoApp.Converters"
-             StartupUri="Views/MainWindow.xaml">
+             StartupUri="Views/MainWindow.xaml" 
+             Activated="Application_Activated">
     <Application.Resources>
 
         <ResourceDictionary>
+                
+            
             <CurrencyViewModel:CurrencyViewModel x:Key="CurrencyViewModel"/>
             <Converters:ZeroToNullConverter x:Key="ZeroToNullConverter"/>
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
@@ -18,9 +21,10 @@
             </FontFamily>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Themes/CustomFigure.xaml"/>
-                <ResourceDictionary Source="Themes/OceanTheme.xaml" x:Name="OceanTheme"/>
-                <ResourceDictionary Source="Themes/DarkTheme.xaml" x:Name="DarkTheme"/>
+                <ResourceDictionary Source="Themes/OceanTheme.xaml"/>
+                <ResourceDictionary Source="Themes/Languages/EnglishLanguage.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            
         </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -5,25 +5,93 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Globalization;
+using System.Xml;
+using System.Reflection;
+using System.IO;
 
 namespace CryptoApp
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
     public partial class App : Application
     {
+        private static string _theme;
+        private static string _localization;
         private static CryptoCurrency _currency;
-        public static CryptoCurrency GlobalCurrency { get => _currency; set { _currency = value; if(value != null) Update();} }
 
-        public delegate void Trigger();
-        public static event Trigger OnTrigger;
+        public static List<CryptoCurrency> TopTenCurrenciesList { get; set; } = new List<CryptoCurrency>();
 
-        private static void Update()
+        public static string Theme
+        { 
+            get => _theme; 
+            set {
+                _theme=value;
+                UpdateConfig(value, nameof(Theme));
+                Application.Current.Resources.MergedDictionaries[1].Source = new Uri($"/Themes/{value}Theme.xaml", UriKind.Relative); 
+            } 
+        }
+
+        public static string Localization 
+        { 
+            get => _localization; 
+            set {
+                _localization=value;
+                UpdateConfig(value, nameof(Localization));
+
+                //Thread.CurrentThread.CurrentCulture = new CultureInfo(_localization.Substring(0,2)+"-US");
+                //Thread.CurrentThread.CurrentUICulture = new CultureInfo(_localization);
+            } 
+        }
+
+        public delegate void LoadCryptoCurrency();
+        public static event LoadCryptoCurrency CryptoCurrencies_Loaded;
+
+        public App()
         {
-            OnTrigger?.Invoke();
+            LoadConfig();
+        }
+
+        private static void LoadConfig()
+        {
+            XmlDocument appSettingsXml = new XmlDocument();
+            appSettingsXml.Load("../../../AppSettings.xml");
+
+            _theme = appSettingsXml.SelectSingleNode("configuration/theme").FirstChild.InnerText ?? "Ocean";
+
+            _localization = appSettingsXml.SelectSingleNode("configuration/localization").FirstChild.InnerText ?? "English";
+        }
+
+        private static void UpdateConfig(string value, string propertyCaller)
+        {
+            if(propertyCaller == nameof(Theme))
+            {
+                string fileConfigpath = "../../../AppSettings.xml";
+                XmlDocument configXml = new XmlDocument();
+                configXml.Load(fileConfigpath);
+                configXml.DocumentElement.FirstChild.FirstChild.InnerText = value;
+                configXml.Save(fileConfigpath);
+            }
+            else if(propertyCaller == nameof(Localization))
+            {
+                string fileConfigpath = "../../../AppSettings.xml";
+                XmlDocument configXml = new XmlDocument();
+                configXml.Load(fileConfigpath);
+                configXml.DocumentElement.LastChild.FirstChild.InnerText = value;
+                configXml.Save(fileConfigpath);
+            }
+        }
+
+        private void ChangeTheme(string themeName)
+        {
+
+        }
+
+        async private void Application_Activated(object sender, EventArgs e)
+        {
+            TopTenCurrenciesList = (List<CryptoCurrency>) await CryptoCurrencyRepository.GetCryptoCurrenciesAsync();
+            CryptoCurrencies_Loaded?.Invoke();
         }
     }
 }

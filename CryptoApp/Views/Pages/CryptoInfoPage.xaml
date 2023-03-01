@@ -7,7 +7,7 @@
       xmlns:sys="clr-namespace:System;assembly=mscorlib"
       mc:Ignorable="d"
       d:DesignHeight="580" d:DesignWidth="960"
-      Title="CryptoInfoPage" Loaded="Page_Loaded"
+      Title="CryptoInfoPage"
       DataContext="{StaticResource CurrencyViewModel}">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -17,14 +17,14 @@
 
         <StackPanel x:Name="stackPanelCrypto" Margin="12 0 0 0">
             <TextBlock Foreground="{DynamicResource DefaultTextColor}" FontSize="40"
-                           Text="Top 10 cryptocurrencies"/>
-            <Grid Height="34" Margin="0 2 0 0">
+                           Text="{DynamicResource Top10Cryptocurrencies}"/>
+            <Grid Height="34" Margin="1 2 1 0">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="46"/>
-                    <ColumnDefinition Width="12"/>
-                    <ColumnDefinition Width="0.7*"/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
+                    <ColumnDefinition MinWidth="46"/>
+                    <ColumnDefinition Width="0.08*"/>
+                    <ColumnDefinition MinWidth="90" Width="1.6*"/>
+                    <ColumnDefinition MinWidth="130" Width="2.5*"/>
+                    <ColumnDefinition MinWidth="130" Width="2.5*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.Resources>
                     <Style TargetType="Grid" x:Key="GridMock">
@@ -37,34 +37,165 @@
                 </Grid.Resources>
                 <Grid Style="{StaticResource GridMock}">
                     <Border BorderThickness="1" BorderBrush="Black"/>
-                    <TextBlock Text="Rank"
+                    <TextBlock Text="{DynamicResource Rank}"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"/>
                 </Grid>
                 <Grid Grid.Column="2" Style="{StaticResource GridMock}">
                     <Border BorderThickness="1" BorderBrush="Black"/>
-                    <TextBlock Text="Name"
+                    <TextBlock Text="{DynamicResource Name}"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"/>
                 </Grid>
                 <Grid Grid.Column="3" Style="{StaticResource GridMock}">
                     <Border BorderThickness="0 1 1 1" BorderBrush="Black"/>
-                    <TextBlock Text="Price USD"
+                    <TextBlock Text="{DynamicResource PriceUsd}"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"/>
                 </Grid>
-                <Grid Grid.Column="4" Style="{StaticResource GridMock}">
+                <Grid Grid.Column="4" Style="{DynamicResource GridMock}">
                     <Border BorderThickness="0 1 1 1" BorderBrush="Black"/>
-                    <TextBlock Text="Volume"
+                    <TextBlock Text="{StaticResource Volume}"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"/>
                 </Grid>
             </Grid>
+            <!-- This control represents data of top cryptocurrencies -->
+            <ListView ItemsSource="{Binding CurrenciesList}" BorderThickness="0,0,0,0"
+                      HorizontalContentAlignment="Stretch"
+                      ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                      ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                      Background="Transparent"
+                      SelectedItem="{Binding Currency, Mode=OneWayToSource}"
+                      x:Name="CryptoViewList">
+                <!-- this markup Changing the ListView item template -->
+                <ListView.Resources>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ListViewItem">
+                                    <Grid VerticalAlignment="Stretch"
+                                          HorizontalAlignment="Stretch"
+                                          Margin="0 4 0 0"
+                                          Background="{TemplateBinding Background}">
+                                        
+                                        <ContentPresenter/>
+                                    </Grid>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background"
+                                        Value="{DynamicResource RadioButtonSelected}"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" 
+                                        Value="{DynamicResource RadioButtonHover}"/>
+                                <Setter Property="Cursor" Value="Hand"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ListView.Resources>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Height="34" x:Name="GridList">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition MinWidth="46"/>
+                                <ColumnDefinition Width="0.08*"/>
+                                <ColumnDefinition MinWidth="90" Width="1.6*"/>
+                                <ColumnDefinition MinWidth="130" Width="2.5*"/>
+                                <ColumnDefinition MinWidth="130" Width="2.5*"/>
+                            </Grid.ColumnDefinitions>
+                            <Border BorderThickness="1"
+                                    BorderBrush="Black"
+                                    Grid.Column="0">
+                                <TextBlock VerticalAlignment="Center"
+                                           HorizontalAlignment="Center"
+                                           Foreground="{DynamicResource DefaultTextColor}"
+                                           FontSize="18"
+                                           Text="{Binding Rank}"/>
+                            </Border>
+                            <Border BorderThickness="1"
+                                    BorderBrush="Black"
+                                    Grid.Column="2">
+                                <TextBlock VerticalAlignment="Center"
+                                           HorizontalAlignment="Center"
+                                           FontSize="18"
+                                           Foreground="{DynamicResource DefaultTextColor}"
+                                           Text="{Binding Name}"/>
+                            </Border>
+                            <Border BorderThickness="0 1 1 1"
+                                    BorderBrush="Black"
+                                    Grid.Column="3">
+                                <TextBlock VerticalAlignment="Center"
+                                           HorizontalAlignment="Center"
+                                           Foreground="{DynamicResource DefaultTextColor}"
+                                           FontSize="16"
+                                           Text="{Binding PriceUsd,StringFormat=N4}"/>
+                            </Border>
+                            <Border BorderThickness="0 1 1 1"
+                                    BorderBrush="Black"
+                                    Grid.Column="4">
+                                <TextBlock VerticalAlignment="Center"
+                                           HorizontalAlignment="Center"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource DefaultTextColor}"
+                                           Text="{Binding VolumeUsdEra, StringFormat=N4}"/>
+                            </Border>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </StackPanel>
-        <Grid Grid.Column="1" Visibility="{Binding LoadContent,
-            Converter={StaticResource BooleanToVisibilityConverter}}"
-              Background="{DynamicResource CurrencyInfoBackground}">
+        <Grid 
+              xmlns:anim="clr-namespace:CryptoApp.Animations"
+              Grid.Column="1" x:Name="GridInfo"
+              Background="{DynamicResource CurrencyInfoBackground}" ClipToBounds="True"
+              Visibility="{Binding IsContentLoaded, 
+            Converter={StaticResource BooleanToVisibilityConverter}}">
+
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2.7*">
+                    <ColumnDefinition.Style>
+                        <Style TargetType="ColumnDefinition">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=MarketGrid,
+                                    Path=IsMouseOver}" Value="True">
+                                    <DataTrigger.EnterActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <anim:GridLengthAnimation
+                                                    Storyboard.TargetProperty="Width"
+                                                    Duration="0:0:0.5" 
+                                                    To="0*" From="2.7*">
+                                                    <anim:GridLengthAnimation.EasingFunction>
+                                                        <PowerEase/>
+                                                    </anim:GridLengthAnimation.EasingFunction>
+                                                </anim:GridLengthAnimation>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </DataTrigger.EnterActions>
+                                    <DataTrigger.ExitActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <anim:GridLengthAnimation
+                                                    Storyboard.TargetProperty="Width"
+                                                    Duration="0:0:3" 
+                                                    To="2.7*" From="0*">
+                                                    <anim:GridLengthAnimation.EasingFunction>
+                                                        <CubicEase/>
+                                                    </anim:GridLengthAnimation.EasingFunction>
+                                                </anim:GridLengthAnimation>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </DataTrigger.ExitActions>
+                                </DataTrigger>
+
+                            </Style.Triggers>
+                        </Style>
+                    </ColumnDefinition.Style>
+                </ColumnDefinition>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
@@ -93,7 +224,7 @@
                     </Label>
                 </Grid>
                 <TextBlock Foreground="White"
-                           Text="{Binding Symbol}"
+                           Text="{Binding Currency.Symbol}"
                            FontSize="32" FontWeight="Bold"
                            HorizontalAlignment="Center"/>
                 <TextBlock Foreground="White"
@@ -117,75 +248,50 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <StackPanel>
-                    <TextBlock Text="Price USD"/>
+                    <TextBlock Text="{DynamicResource PriceUsd}"/>
                     <TextBlock Text="{Binding Currency.PriceUsd, 
                         Converter={StaticResource ZeroToNullConverter}}" FontSize="16"/>
                 </StackPanel>
                 <StackPanel Grid.Row="1">
-                    <TextBlock Text="Supply"/>
+                    <TextBlock Text="{DynamicResource Supply}"/>
                     <TextBlock Text="{Binding Currency.Supply,
                         Converter={StaticResource ZeroToNullConverter}}" FontSize="16"/>
                 </StackPanel>
                 <StackPanel Grid.Row="2">
-                    <TextBlock Text="Max Supply"/>
+                    <TextBlock Text="{DynamicResource MaxSupply}"/>
                     <TextBlock Text="{Binding Currency.MaxSupply,
                         Converter={StaticResource ZeroToNullConverter}}" FontSize="16"/>
                 </StackPanel>
                 <StackPanel Grid.Row="3">
-                    <TextBlock Text="Market Cap USD"/>
+                    <TextBlock Text="{DynamicResource MarketCapUsd}"/>
                     <TextBlock Text="{Binding Currency.MarketCupUsd,
                         Converter={StaticResource ZeroToNullConverter}}" FontSize="16"/>
                 </StackPanel>
                 <StackPanel Grid.Row="4">
-                    <TextBlock Text="Volume USD (24h)"/>
+                    <TextBlock Text="{DynamicResource VolumeUsd}"/>
                     <TextBlock Text="{Binding Currency.VolumeUsdEra,
                         Converter={StaticResource ZeroToNullConverter}}" FontSize="16"/>
                 </StackPanel>
                 <StackPanel Grid.Row="5">
-                    <TextBlock Text="Change Percent"/>
+                    <TextBlock Text="{DynamicResource ChangePercent}"/>
                     <TextBlock 
                         Foreground="{Binding Currency.ChangePecentEra,
                         Converter={StaticResource NumberToBrushConverter}}"
                         Text="{Binding Currency.ChangePecentEra,
-                        Converter={StaticResource ZeroToNullConverter},
-                        StringFormat=P6}"
+                        Converter={StaticResource ZeroToNullConverter}}"
                         FontSize="16"/>
                 </StackPanel>
             </Grid>
-            <Grid Grid.RowSpan="2" Width="470"
-                        Background="#F20D001F" Margin="308,0,0,0">
+            <Grid Grid.RowSpan="2" Grid.Column="1"
+                  Background="#F20D001F"
+                  x:Name="MarketGrid">
+                
                 <Grid.RowDefinitions>
                     <RowDefinition Height="40"/>
                     <RowDefinition/>
+                    <RowDefinition/>
                 </Grid.RowDefinitions>
-                <Grid.Style>
-                    <Style TargetType="Grid">
-                        <Style.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Trigger.EnterActions>
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                            <ThicknessAnimation 
-                                                Duration="0:0:0.23"
-                                                Storyboard.TargetProperty="Margin"
-                                                To="0 0 0 0"/>
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </Trigger.EnterActions>
-                                <Trigger.ExitActions>
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                            <ThicknessAnimation 
-                                                Duration="0:0:0.5"
-                                                Storyboard.TargetProperty="Margin"
-                                                To="308 0 0 0"/>
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </Trigger.ExitActions>
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </Grid.Style>
+
                 <Canvas Height="28" Width="7" 
                         VerticalAlignment="Center"
                         HorizontalAlignment="Left" Margin="6 0 0 0">
@@ -200,8 +306,8 @@
                           StrokeEndLineCap="Round"/>
 
                 </Canvas>
-                <TextBlock FontSize="24" Text="Markets" 
-                           Margin="18 2 0 0"
+                <TextBlock FontSize="24" Text="{DynamicResource Markets}" 
+                           Margin="18 2 6 0"
                            VerticalAlignment="Top"
                            Foreground="LightGray"/>
                 <ListView SelectionMode="Single"
@@ -241,8 +347,7 @@
                                        Text="{Binding VolumeUsd24Hr, StringFormat=C3}"/>
                                 <TextBlock Grid.Column="3" 
                                            HorizontalAlignment="Right"
-                                       Text="{Binding VolumePercent, StringFormat=P5}"/>
-                                
+                                       Text="{Binding VolumePercent}"/>
                             </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>

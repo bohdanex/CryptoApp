@@ -1,5 +1,4 @@
-﻿using CryptoApp.Views.UserControls;
-using CryptoApp.ViewModels;
+﻿using CryptoApp.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +14,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using CryptoApp.Models;
-using SciChart.Charting.Common.Extensions;
 
 namespace CryptoApp
 {
@@ -38,13 +36,6 @@ namespace CryptoApp
         //Find in currencies
         async private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (String.IsNullOrEmpty(SearchBox.Text)) return;
-            App.GlobalCurrency =
-                await CryptoCurrencyRepository.GetCryptoAsync(SearchBox.Text.ToLower());
-            if(App.GlobalCurrency == null)
-            {
-                MessageBox.Show($"{SearchBox.Text.ToLower()} is not found", "CryptoApp - Warning", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-            }
         }
     }
 }

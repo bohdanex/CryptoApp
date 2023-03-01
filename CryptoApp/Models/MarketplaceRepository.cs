@@ -37,5 +37,28 @@ namespace CryptoApp.Models
                 return null;
             }
         }
+
+        async public static Task<IEnumerable<Marketplace>> GetMarketAsync(byte limit = 40)
+        {
+            try
+            {
+                string url = $"https://api.coincap.io/v2/markets?limit={limit}";
+                HttpClient client = new HttpClient();
+                using Stream stream = await client.GetStreamAsync(url);
+                using JsonDocument dataJson = await JsonDocument.ParseAsync(stream);
+                JsonElement dataElement = dataJson.RootElement.GetProperty("data");
+                List<MarketModelFromApi> dataFromApi = JsonSerializer.Deserialize<List<MarketModelFromApi>>(dataElement);
+                List<Marketplace> originalMarket = new();
+                foreach (MarketModelFromApi market in dataFromApi)
+                {
+                    originalMarket.Add(market.ToMarketplace());
+                }
+                return originalMarket;
+            }
+            catch (HttpRequestException)
+            {
+                return null;
+            }
+        }
     }
 }
