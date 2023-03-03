@@ -5,6 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:CryptoApp.Pages"
       xmlns:sys="clr-namespace:System;assembly=mscorlib"
+      xmlns:viewmodel="clr-namespace:CryptoApp.ViewModels"
       mc:Ignorable="d"
       d:DesignHeight="580" d:DesignWidth="960"
       Title="CryptoInfoPage"
@@ -78,7 +79,7 @@
                                           HorizontalAlignment="Stretch"
                                           Margin="0 4 0 0"
                                           Background="{TemplateBinding Background}">
-                                        
+
                                         <ContentPresenter/>
                                     </Grid>
                                 </ControlTemplate>
@@ -156,45 +157,7 @@
             Converter={StaticResource BooleanToVisibilityConverter}}">
 
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2.7*">
-                    <ColumnDefinition.Style>
-                        <Style TargetType="ColumnDefinition">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=MarketGrid,
-                                    Path=IsMouseOver}" Value="True">
-                                    <DataTrigger.EnterActions>
-                                        <BeginStoryboard>
-                                            <Storyboard>
-                                                <anim:GridLengthAnimation
-                                                    Storyboard.TargetProperty="Width"
-                                                    Duration="0:0:0.5" 
-                                                    To="0*" From="2.7*">
-                                                    <anim:GridLengthAnimation.EasingFunction>
-                                                        <PowerEase/>
-                                                    </anim:GridLengthAnimation.EasingFunction>
-                                                </anim:GridLengthAnimation>
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </DataTrigger.EnterActions>
-                                    <DataTrigger.ExitActions>
-                                        <BeginStoryboard>
-                                            <Storyboard>
-                                                <anim:GridLengthAnimation
-                                                    Storyboard.TargetProperty="Width"
-                                                    Duration="0:0:3" 
-                                                    To="2.7*" From="0*">
-                                                    <anim:GridLengthAnimation.EasingFunction>
-                                                        <CubicEase/>
-                                                    </anim:GridLengthAnimation.EasingFunction>
-                                                </anim:GridLengthAnimation>
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </DataTrigger.ExitActions>
-                                </DataTrigger>
-
-                            </Style.Triggers>
-                        </Style>
-                    </ColumnDefinition.Style>
+                <ColumnDefinition Width="2.7*" x:Name="MarketsCol1">
                 </ColumnDefinition>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
@@ -285,7 +248,38 @@
             <Grid Grid.RowSpan="2" Grid.Column="1"
                   Background="#F20D001F"
                   x:Name="MarketGrid">
-                
+                <Grid.Triggers>
+                    <EventTrigger RoutedEvent="MouseEnter">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <anim:GridLengthAnimation
+                                                    Storyboard.TargetName="MarketsCol1"
+                                                    Storyboard.TargetProperty="Width"
+                                                    Duration="0:0:0.5"
+                                                    To="0*" >
+                                    <anim:GridLengthAnimation.EasingFunction>
+                                        <PowerEase/>
+                                    </anim:GridLengthAnimation.EasingFunction>
+                                </anim:GridLengthAnimation>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                    <EventTrigger RoutedEvent="MouseLeave">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <anim:GridLengthAnimation
+                                                    Storyboard.TargetName="MarketsCol1"
+                                                    Storyboard.TargetProperty="Width"
+                                                    Duration="0:0:3" 
+                                                    To="2.7*">
+                                    <anim:GridLengthAnimation.EasingFunction>
+                                        <CubicEase/>
+                                    </anim:GridLengthAnimation.EasingFunction>
+                                </anim:GridLengthAnimation>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Grid.Triggers>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="40"/>
                     <RowDefinition/>
@@ -315,39 +309,33 @@
                           Foreground="WhiteSmoke"
                           Background="Transparent"
                           BorderThickness="0"
-                          ItemsSource="{Binding CurrencyMarkets}">
+                          HorizontalContentAlignment="Stretch"
+                          d:DataContext="{d:DesignInstance viewmodel:CurrencyViewModel,
+                            IsDesignTimeCreatable=False}"
+                          ItemsSource="{Binding CurrencyMarkets}"
+                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                          ScrollViewer.VerticalScrollBarVisibility="Disabled">
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <Grid Width="456">
+                            <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="1.3*"/>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition Width="1.5*"/>
-                                    <ColumnDefinition/>
+                                    <ColumnDefinition MinWidth="80"/>
+                                    <ColumnDefinition MinWidth="80"/>
+                                    <ColumnDefinition MinWidth="80"/>
+                                    <ColumnDefinition MinWidth="80"/>
                                 </Grid.ColumnDefinitions>
-                                <Grid.Resources>
-                                    <Style TargetType="TextBlock">
-                                        <Setter Property="FontSize" Value="16"/>
-                                    </Style>
-                                </Grid.Resources>
-                                
-                                <TextBlock Text="{Binding ExchangeId}"
-                                           HorizontalAlignment="Left"/>
-                                <Border Grid.Column="1"
-                                        BorderBrush="White"
-                                        BorderThickness="1 0 0 0"/>
-                                <TextBlock Grid.Column="1" 
-                                           HorizontalAlignment="Center"
-                                       Text="{Binding PriceUsd, StringFormat=C3}"/>
-                                <Border Grid.Column="2"
-                                        BorderBrush="White"
-                                        BorderThickness="1 0 1 0"/>
-                                <TextBlock Grid.Column="2" 
-                                           HorizontalAlignment="Center"
-                                       Text="{Binding VolumeUsd24Hr, StringFormat=C3}"/>
-                                <TextBlock Grid.Column="3" 
-                                           HorizontalAlignment="Right"
-                                       Text="{Binding VolumePercent}"/>
+                                <Border Grid.Column="0">
+                                    <TextBlock Text="{Binding ExchangeId}"/>
+                                </Border>
+                                <Border Grid.Column="1">
+                                    <TextBlock Text="{Binding BaseId}"/>
+                                </Border>
+                                <Border Grid.Column="2">
+                                    <TextBlock Text="{Binding BaseSymbol}"/>
+                                </Border>
+                                <Border Grid.Column="3">
+                                    <TextBlock Text="{Binding QuoteId}" FlowDirection="RightToLeft"/>
+                                </Border>
                             </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>

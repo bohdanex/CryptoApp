@@ -22,7 +22,7 @@ namespace CryptoApp.Animations
 
         public GridLength From
         {
-            get { return (GridLength)GetValue(FromProperty); }
+            get { return (GridLength)GetValue(FromProperty);}
             set { SetValue(FromProperty, value); }
         }
 
@@ -48,8 +48,7 @@ namespace CryptoApp.Animations
         public override object GetCurrentValue(object defaultOriginValue, object defaultDestinationValue, AnimationClock animationClock)
         {
             double fromVal = ((GridLength)GetValue(GridLengthAnimation.FromProperty)).Value;
-            double toVal = ((GridLength)GetValue(GridLengthAnimation.ToProperty)).Value;
-
+            double toVal = this.To.Value;
             if (fromVal > toVal)
             {
                 if (EasingFunction != null)

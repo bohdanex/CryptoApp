@@ -5,13 +5,12 @@
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:CurrencyViewModel="clr-namespace:CryptoApp.ViewModels"
              xmlns:Converters="clr-namespace:CryptoApp.Converters"
-             StartupUri="Views/MainWindow.xaml" 
-             Activated="Application_Activated">
+             StartupUri="Views/MainWindow.xaml"
+             LoadCompleted="Application_LoadCompleted">
     <Application.Resources>
 
         <ResourceDictionary>
                 
-            
             <CurrencyViewModel:CurrencyViewModel x:Key="CurrencyViewModel"/>
             <Converters:ZeroToNullConverter x:Key="ZeroToNullConverter"/>
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>

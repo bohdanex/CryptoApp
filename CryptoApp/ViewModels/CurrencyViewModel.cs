@@ -35,6 +35,7 @@ namespace CryptoApp.ViewModels
                 OnPropertyChanged(nameof(Currency));
                 if(value != null && value.Symbol != null && value.Name != "Undefined")
                 {
+                    var task = Task.Factory.StartNew(GetCryptoMarkets);
                     SetImage(new Uri($"https://assets.coincap.io/assets/icons/{value.Symbol.ToLower()}@2x.png"));
                 }
                 
@@ -46,7 +47,7 @@ namespace CryptoApp.ViewModels
             CurrencyImageUri = new Uri("../../StaticFiles/Images/loading.png", UriKind.Relative);
             Currency = new CryptoCurrency();
             CurrencyMarkets = new ObservableCollection<CryptoMarket>();
-            App.CryptoCurrencies_Loaded += LoadCryptocurrencies;    
+            App.CryptoCurrencies_Loaded += LoadCryptocurrencies;
         }
 
         private void OnPropertyChanged(string name = null)
@@ -58,6 +59,12 @@ namespace CryptoApp.ViewModels
         {
             CurrenciesList = new(App.TopTenCurrenciesList);
             OnPropertyChanged(nameof(CurrenciesList));
+        }
+
+        async private void GetCryptoMarkets()
+        {
+            CurrencyMarkets = new(await MarketplaceRepository.GetCryptoMarketsAsync(_currency.Id)); 
+            OnPropertyChanged(nameof(CurrencyMarkets));
         }
 
         private void SetImage(Uri uri)

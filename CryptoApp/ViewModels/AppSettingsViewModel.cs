@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 
 namespace CryptoApp.ViewModels
 {
@@ -42,8 +36,8 @@ namespace CryptoApp.ViewModels
 
         public AppSettingsViewModel()
         {
-            SelectedTheme= App.Theme;
-            SelectedLanguage= App.Localization;
+            SelectedTheme = App.Theme;
+            SelectedLanguage = App.Localization;
             OnPropertyChanged(nameof(SelectedTheme));
             OnPropertyChanged(nameof(SelectedLanguage));
         }

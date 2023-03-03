@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\UserControls\" />
+    <Folder Include="StaticFiles\Images\" />
   </ItemGroup>
 
   <ItemGroup>

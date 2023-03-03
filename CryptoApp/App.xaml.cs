@@ -1,17 +1,8 @@
 ﻿using CryptoApp.Models;
-using CryptoApp.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Globalization;
 using System.Xml;
-using System.Reflection;
-using System.IO;
 
 namespace CryptoApp
 {
@@ -24,25 +15,27 @@ namespace CryptoApp
         public static List<CryptoCurrency> TopTenCurrenciesList { get; set; } = new List<CryptoCurrency>();
 
         public static string Theme
-        { 
-            get => _theme; 
-            set {
-                _theme=value;
+        {
+            get => _theme;
+            set
+            {
+                _theme = value;
                 UpdateConfig(value, nameof(Theme));
-                Application.Current.Resources.MergedDictionaries[1].Source = new Uri($"/Themes/{value}Theme.xaml", UriKind.Relative); 
-            } 
+                Application.Current.Resources.MergedDictionaries[1].Source = new Uri($"/Themes/{value}Theme.xaml", UriKind.Relative);
+            }
         }
 
-        public static string Localization 
-        { 
-            get => _localization; 
-            set {
-                _localization=value;
+        public static string Localization
+        {
+            get => _localization;
+            set
+            {
+                _localization = value;
                 UpdateConfig(value, nameof(Localization));
 
                 //Thread.CurrentThread.CurrentCulture = new CultureInfo(_localization.Substring(0,2)+"-US");
                 //Thread.CurrentThread.CurrentUICulture = new CultureInfo(_localization);
-            } 
+            }
         }
 
         public delegate void LoadCryptoCurrency();
@@ -65,7 +58,7 @@ namespace CryptoApp
 
         private static void UpdateConfig(string value, string propertyCaller)
         {
-            if(propertyCaller == nameof(Theme))
+            if (propertyCaller == nameof(Theme))
             {
                 string fileConfigpath = "../../../AppSettings.xml";
                 XmlDocument configXml = new XmlDocument();
@@ -73,7 +66,7 @@ namespace CryptoApp
                 configXml.DocumentElement.FirstChild.FirstChild.InnerText = value;
                 configXml.Save(fileConfigpath);
             }
-            else if(propertyCaller == nameof(Localization))
+            else if (propertyCaller == nameof(Localization))
             {
                 string fileConfigpath = "../../../AppSettings.xml";
                 XmlDocument configXml = new XmlDocument();
@@ -83,14 +76,9 @@ namespace CryptoApp
             }
         }
 
-        private void ChangeTheme(string themeName)
+        async private void Application_LoadCompleted(object sender, System.Windows.Navigation.NavigationEventArgs e)
         {
-
-        }
-
-        async private void Application_Activated(object sender, EventArgs e)
-        {
-            TopTenCurrenciesList = (List<CryptoCurrency>) await CryptoCurrencyRepository.GetCryptoCurrenciesAsync();
+            TopTenCurrenciesList = (List<CryptoCurrency>)await CryptoCurrencyRepository.GetCryptoCurrenciesAsync();
             CryptoCurrencies_Loaded?.Invoke();
         }
     }
